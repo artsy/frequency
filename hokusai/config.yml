@@ -1,2 +1,6 @@
 ---
 project-name: frequency
+hokusai-required-version: ">=0.5.9"
+git-remote: git@github.com:artsy/frequency.git
+template-config-files:
+  - s3://artsy-citadel/k8s/hokusai-vars.yml

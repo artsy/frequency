@@ -3,6 +3,5 @@ version: '2'
 services:
   frequency:
     command: ["echo", "no", "tests"]
-    extends:
-      file: build.yml
-      service: frequency
+    build:
+      context: ../
