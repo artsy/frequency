@@ -10,4 +10,10 @@ namespace :record do
     require './lib/release_metrics'
     ReleaseMetrics.record_hourly_metrics
   end
+
+  desc 'Record timeliness of data-processing results on S3'
+  task :data_freshness do
+    require './lib/data_freshness'
+    DataFreshness.record_metrics
+  end
 end

@@ -6,8 +6,9 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gem 'activesupport'
 gem 'dogstatsd-ruby'
-gem 'octokit'
+gem 'octokit' # release metrics
 gem 'rake'
+gem 'aws-sdk-s3' # freshness of data-processing results
 
 group :test do
   gem 'rspec'
