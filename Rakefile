@@ -4,6 +4,11 @@ begin
 rescue LoadError
 end
 
+
+desc 'run both metrics tasks hourly'
+task hourly: ['record:hourly_release_metrics', 'record:data_freshness']
+
+
 namespace :record do
   desc 'Record hourly release.first_commit and release.pull_request_age metrics to statsd'
   task :hourly_release_metrics do

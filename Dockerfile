@@ -25,4 +25,4 @@ ADD . /app
 WORKDIR /app
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["bundle", "exec", "ruby", "script.rb"]
+CMD ["bundle", "exec", "rake", "--tasks"]
