@@ -40,7 +40,7 @@ class ReleaseMetrics
     @github ||= Octokit::Client.new(access_token: Config.values[:github_access_token])
   end
 
-  def self.pull_requests_for_release(issue)
+  def pull_requests_for_release(issue)
     query = <<-QUERY
       query {
         node(id: "#{issue.node_id}") {
@@ -69,7 +69,7 @@ class ReleaseMetrics
     QUERY
     response = github.post '/graphql', { query: query }.to_json
     response.data.node.commits.edges.flat_map do |e|
-      e.node.commit.associatedPullRequests.map { |k, v| v.first.node }
+      e.node.commit.associatedPullRequests.map { |_k, v| v.first.node }
     end.uniq(&:url)
   end
 end
