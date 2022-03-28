@@ -68,6 +68,9 @@ class ReleaseMetrics
       }
     QUERY
     response = github.post '/graphql', { query: query }.to_json
+    if response.errors.length > 0
+      $stderr.puts "Error: Retrieving pull requests from Github graphql API: #{response.errors}"
+    end
     response.data.node.commits.edges.flat_map do |e|
       e.node.commit.associatedPullRequests.map { |_k, v| v.first.node }
     end.uniq(&:url)
