@@ -22,3 +22,8 @@ namespace :record do
     DataFreshness.record_metrics
   end
 end
+
+task :scan_tokens do
+  require './lib/token_scanner'
+  TokenScanner.new.run
+end
