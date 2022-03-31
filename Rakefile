@@ -23,6 +23,7 @@ namespace :record do
   end
 end
 
+desc 'scan tokens'
 task :scan_tokens do
   require './lib/token_scanner'
   TokenScanner.new.run

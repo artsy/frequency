@@ -9,6 +9,8 @@ gem 'dogstatsd-ruby'
 gem 'octokit' # release metrics
 gem 'rake'
 gem 'aws-sdk-s3' # freshness of data-processing results
+gem 'json'
+gem 'jwt'
 
 group :test do
   gem 'rspec'
