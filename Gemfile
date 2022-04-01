@@ -11,6 +11,7 @@ gem 'rake'
 gem 'aws-sdk-s3' # freshness of data-processing results
 gem 'json'
 gem 'jwt'
+gem 'base64'
 
 group :test do
   gem 'rspec'
