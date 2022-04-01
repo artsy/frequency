@@ -1,4 +1,4 @@
-FROM ruby:2.5.1
+FROM ruby:2.7.5
 ENV LANG C.UTF-8
 
 # Set up nodejs and dumb-init
