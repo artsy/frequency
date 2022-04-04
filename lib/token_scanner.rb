@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'jwt'
 require 'base64'
-require_relative './config'
 
 # Alert about JWT-style tokens approaching expiration dates
 class TokenScanner
@@ -15,8 +16,12 @@ class TokenScanner
   #   like: xxx.xxx.xxx, -xx.x-x-x.xx-, etc...
   JWT_REGEX = /^(?:[\w-]*\.){2}[\w-]*$/.freeze
 
-  def get_config_maps
-    JSON.parse(`kubectl --context staging get configmaps -o json`)
+  def initialize(context)
+    @context = context
+  end
+
+  def config_maps
+    JSON.parse(`kubectl --context #{@context} get configmaps -o json`)
   end
 
   # returns number of days left until expiration
@@ -26,13 +31,13 @@ class TokenScanner
     ((exp_time - current_time) / (60 * 60 * 24)).to_i
   end
 
-  # is_jwt? returns true if the string is a JWT-style token
-  def is_jwt?(value)
+  # jwt? returns true if the input is a JWT-style token
+  def jwt?(value)
     # apply regex to value, this will filter out 'most' non-JWT values
     return unless JWT_REGEX.match?(value)
     # to ensure we have a valid JWT, split the value on . and test the header (first part in JWT before the first period)
-    #   NOTE: valid JWTs will be base64 encoded and have a header with 'alg' and 'typ'
-    #   NOTE2: some artsy JWTs don't have 'typ' so we test header for 'alg' instead
+    #   valid JWTs will be base64 encoded and have a header with 'alg' and 'typ'
+    #   some JWTs may not have 'typ' so we test header for 'alg' instead
     return unless Base64.decode64(value.split('.').first).include?('alg')
 
     true
@@ -43,29 +48,26 @@ class TokenScanner
   def run
     tokens_near_expiration = []
 
-    get_config_maps["items"].each do |config_map|
-      name = config_map["metadata"]["name"]
+    config_maps['items'].each do |config_map|
+      name = config_map['metadata']['name']
 
-      next unless config_map.has_key?("data")
+      next unless config_map.key?('data')
 
       config_map['data'].each do |key, value|
-        next unless is_jwt?(value)
+        next unless jwt?(value)
 
-        # decode the JWT
         decoded_jwt = JWT.decode(value, nil, false)
 
-        # skip if JWT payload does not contain 'exp' key
-        next unless decoded_jwt[0].has_key?('exp')
+        next unless decoded_jwt[0].key?('exp')
 
-        exp = decoded_jwt[0]['exp']
-        days_left = get_days_left(exp)
+        days_left = get_days_left(decoded_jwt[0]['exp'])
         tokens_near_expiration << [name, key, days_left] if days_left < WARN_THRESHOLD
       end
     end
 
-    $stderr.puts tokens_near_expiration.inspect
+    warn tokens_near_expiration.inspect
 
     # raise error if any tokens are near expiration
-    raise "Some tokens will expire soon" if tokens_near_expiration.any?
+    raise 'Some tokens will expire soon' if tokens_near_expiration.any?
   end
 end
