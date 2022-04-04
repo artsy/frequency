@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'datadog/statsd'
 require 'aws-sdk-s3'
 require_relative './config'
@@ -14,15 +16,17 @@ class DataFreshness
     artwork_iconicity: { bucket: 'artsy-cinder-production', prefix: 'builds/ArtworkIconicity/' },
     artwork_merchandisability: { bucket: 'artsy-cinder-production', prefix: 'builds/ArtworkMerchandisability/' },
     cf_artwork_similarity: { bucket: 'artsy-cinder-production', prefix: 'builds/CFArtworkSimilarity/' },
-    contemporary_artist_similarity: { bucket: 'artsy-cinder-production', prefix: 'builds/ContemporaryArtistSimilarity/' },
-    gene_partitioned_artist_trending: { bucket: 'artsy-cinder-production', prefix: 'builds/GenePartitionedArtistTrending/' },
+    contemporary_artist_similarity: { bucket: 'artsy-cinder-production',
+                                      prefix: 'builds/ContemporaryArtistSimilarity/' },
+    gene_partitioned_artist_trending: { bucket: 'artsy-cinder-production',
+                                        prefix: 'builds/GenePartitionedArtistTrending/' },
     gene_similarity: { bucket: 'artsy-cinder-production', prefix: 'builds/GeneSimilarity/' },
     sitemaps: { bucket: 'artsy-sitemaps', prefix: 'sitemap-artist-series' }, # This is because in hue artist series is the last task to run in the chained sitemap tasks
     tag_count: { bucket: 'artsy-cinder-production', prefix: 'builds/TagCount/' },
     user_artwork_suggestions: { bucket: 'artsy-cinder-production', prefix: 'builds/UserArtworkSuggestions/' },
     user_genome: { bucket: 'artsy-cinder-production', prefix: 'builds/UserGenome/' },
     user_price_preference: { bucket: 'artsy-cinder-production', prefix: 'builds/UserPricePreference/' }
-  }
+  }.freeze
 
   def self.record_metrics
     new.record_metrics
@@ -30,12 +34,13 @@ class DataFreshness
 
   def record_metrics
     S3_LOCATIONS.each do |key, s3|
-      last_modified = s3_client.list_objects(bucket:s3[:bucket], prefix:s3[:prefix]).flat_map do |response|
+      last_modified = s3_client.list_objects(bucket: s3[:bucket], prefix: s3[:prefix]).flat_map do |response|
         response.contents.map(&:last_modified)
       end.max
       next unless last_modified
-      age =  Time.now - last_modified
-      $stderr.puts "Recording data_freshness for #{key} as #{last_modified} with an age of #{age}"
+
+      age = Time.now - last_modified
+      warn "Recording data_freshness for #{key} as #{last_modified} with an age of #{age}"
       statsd.gauge "data_freshness.#{key}", age # seconds
     end
   end

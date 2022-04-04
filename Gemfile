@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem 'activesupport'
-gem 'dogstatsd-ruby'
-gem 'octokit' # release metrics
-gem 'rake'
 gem 'aws-sdk-s3' # freshness of data-processing results
+gem 'aws-sdk-s3' # freshness of data-processing results
+gem 'base64'
+gem 'dogstatsd-ruby'
 gem 'json'
 gem 'jwt'
-gem 'base64'
+gem 'octokit' # release metrics
+gem 'rake'
+gem 'rubocop'
 
 group :test do
   gem 'rspec'

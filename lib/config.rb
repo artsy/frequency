@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Config
   def self.values
     @values ||= load_config
@@ -11,7 +13,7 @@ class Config
       dd_agent_host: ENV['DD_AGENT_HOST'],
       github_access_token: ENV['GITHUB_ACCESS_TOKEN']
     }.tap do |config|
-      $stderr.puts "Loading config #{config.map{|k,v| [k, v&.gsub(/.(?<=.{3})/,'*')].join(':') }.join(', ')}"
+      warn "Loading config #{config.map { |k, v| [k, v&.gsub(/.(?<=.{3})/, '*')].join(':') }.join(', ')}"
     end
   end
 end
