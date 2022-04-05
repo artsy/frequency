@@ -24,7 +24,7 @@ namespace :record do
 end
 
 desc 'scan k8s configmaps for expiring JWT tokens'
-task :scan_tokens, [:context] do |_, args|
+task :scan_tokens do
   require './lib/token_scanner'
-  TokenScanner.new(args[:context] || 'staging').run
+  TokenScanner.new.run
 end
