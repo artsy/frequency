@@ -22,7 +22,7 @@ class TokenScanner
     }
   end
 
-  # run runs the scan and logs the results
+  # run runs the scan and logs any existing results existing with an error
   def run
     @tokens.each do |context, results|
       scan(context, results)
@@ -30,7 +30,7 @@ class TokenScanner
 
     return unless @tokens[:production].any? || @tokens[:staging].any?
 
-    # log and raise error if any tokens are near (or past) expiration
+    # log if any tokens are near (or past) expiration
     log
     raise 'Some tokens will expire soon or have expired!'
   end
