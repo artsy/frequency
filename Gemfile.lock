@@ -25,6 +25,7 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.2.3)
       aws-eventstream (~> 1, >= 1.0.2)
+    base64 (0.1.1)
     concurrent-ruby (1.1.6)
     diff-lcs (1.4.4)
     dogstatsd-ruby (4.5.0)
@@ -33,6 +34,8 @@ GEM
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jmespath (1.4.0)
+    json (2.6.1)
+    jwt (2.3.0)
     minitest (5.14.1)
     multipart-post (2.1.1)
     octokit (4.14.0)
@@ -84,11 +87,14 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   aws-sdk-s3
+  base64
   dogstatsd-ruby
+  json
+  jwt
   octokit
   rake
   rspec
   rubocop
 
 BUNDLED WITH
-   2.3.7
+   2.1.4

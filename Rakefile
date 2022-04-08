@@ -22,3 +22,9 @@ namespace :record do
     DataFreshness.record_metrics
   end
 end
+
+desc 'scan k8s configmaps for expiring JWT tokens'
+task :scan_tokens do
+  require './lib/token_scanner'
+  TokenScanner.new.run
+end

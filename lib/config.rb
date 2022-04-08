@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Config
 class Config
   def self.values
     @values ||= load_config
