@@ -22,23 +22,20 @@ class TokenScanner
     }
   end
 
-  # run runs the scan and logs any existing results existing with an error
   def run
     @tokens.each do |context, results|
-      scan(context, results)
+      scan_configmaps(context, results)
     end
 
     return unless @tokens[:production].any? || @tokens[:staging].any?
 
-    # log if any tokens are near (or past) expiration
-    log
+    log_expirations
     raise 'Some tokens will expire soon or have expired!'
   end
 
   private
 
-  # scan scans the configmaps for expiring JWTs
-  def scan(context, results)
+  def scan_configmaps(context, results)
     config_maps(context)['items'].each do |config_map|
       name = config_map['metadata']['name']
       next unless config_map.key?('data')
@@ -59,26 +56,28 @@ class TokenScanner
     JSON.parse(`kubectl --context #{context} get configmaps -o json`)
   end
 
-  # get_days_left returns the number of days left until expiration from today
+  # get_days_left returns the number of days left until expiration (from today)
   def get_days_left(exp)
     exp_time = Time.at(exp).utc
-    current_time = Time.now.utc + (60 * 60 * 24)
+    current_time = Time.now.utc
     ((exp_time - current_time) / (60 * 60 * 24)).to_i
   end
 
-  # jwt? returns true if the input is a JWT-style token
+  # jwt? returns true if the input is a JWT-style token otherwise false
   def jwt?(value)
-    return unless JWT_REGEX.match?(value)
+    return false unless JWT_REGEX.match?(value)
+
     # to further validate JWT, split the value on . and test the header (first part in JWT, before the first period)
     #   JWT header should be base64 encoded and contain an 'alg' and 'typ' keys
     #   some JWTs may not have 'typ' so we test header for 'alg' instead
-    return unless Base64.decode64(value.split('.').first).include?('alg')
+    return false unless Base64.strict_decode64(value.split('.').first).include?('alg')
 
     true
+  rescue ArgumentError
+    false
   end
 
-  # log logs the results of the scan
-  def log
+  def log_expirations
     puts 'START'
     @tokens.each do |context, results|
       next unless results.any?
