@@ -21,8 +21,11 @@ class DataFreshness
     gene_partitioned_artist_trending: { bucket: 'artsy-cinder-production',
                                         prefix: 'builds/GenePartitionedArtistTrending/' },
     gene_similarity: { bucket: 'artsy-cinder-production', prefix: 'builds/GeneSimilarity/' },
+    homefeed_artist_reco: { bucket: 'artsy-recommendations', prefix: 'homefeed/artist_reco.csv' },
+    homefeed_artwork_reco: { bucket: 'artsy-recommendations', prefix: 'homefeed/artwork_reco.csv' },
     sitemaps: { bucket: 'artsy-sitemaps', prefix: 'sitemap-artist-series' }, # This is because in hue artist series is the last task to run in the chained sitemap tasks
     tag_count: { bucket: 'artsy-cinder-production', prefix: 'builds/TagCount/' },
+    trending_score: { bucket: 'artsy-recommendations', prefix: 'trending_score/' },
     user_artwork_suggestions: { bucket: 'artsy-cinder-production', prefix: 'builds/UserArtworkSuggestions/' },
     user_genome: { bucket: 'artsy-cinder-production', prefix: 'builds/UserGenome/' },
     user_price_preference: { bucket: 'artsy-cinder-production', prefix: 'builds/UserPricePreference/' }
