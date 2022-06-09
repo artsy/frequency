@@ -4,12 +4,12 @@ Runs as a periodic cron to record recent cycle time metrics to statsd.
 
 ## Development
 
-    cp .env.example .env
+    ./bin/setup
 
-Update the configuration values in `.env` as appropriate.
+To run tests:
 
-    foreman run bundle exec ruby script.rb
+    bundle exec rspec
 
-...or, using docker:
+To run tasks locally (e.g.):
 
-    hokusai dev start
+    foreman run bundle exec rake record:data_freshness
