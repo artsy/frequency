@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# This assumes you have general prerequisites installed as by:
+# https://github.com/artsy/potential/blob/main/scripts/setup
+
+# Exit if any subcommand fails
+set -e
+
+ruby_version=`cat .ruby-version`
+if command -v rbenv >/dev/null; then # skip rbenv steps if not available (RVM user?)
+  if ! rbenv versions | grep -Fq "$ruby_version"; then
+    brew upgrade ruby-build
+    rbenv install -s "$ruby_version"
+  fi
+
+  eval "$(rbenv init - --no-rehash)"
+  rbenv shell "$ruby_version"
+fi
+
+echo "Downloading .env.shared (for common local dev config)..."
+aws s3 cp s3://artsy-citadel/dev/.env.frequency .env.shared
+
+echo "Installing prerequisite gems..."
+gem update --system
+gem install foreman bundler
+if command -v rbenv >/dev/null; then rbenv rehash; fi
+
+if [ ! -e ".env" ]; then
+  echo "Initializing .env from .env.example (for any custom configuration)..."
+  cp .env.example .env
+fi
+
+echo "Installing gems..."
+bundle install
+
+echo "
+Done!
+
+To run tests:
+
+    bundle exec rspec
+
+Or, to run a rake task (e.g.):
+
+    foreman run bundle exec rake record:data_freshness
+"
