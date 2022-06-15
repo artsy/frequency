@@ -5,6 +5,7 @@ require 'active_support'
 require 'active_support/core_ext/numeric'
 require 'active_support/core_ext/time'
 require 'datadog/statsd'
+require 'json'
 require_relative './config'
 
 # Records cycle time metrics for releases in the last hour.
@@ -69,8 +70,9 @@ class ReleaseMetrics
         }
       }
     QUERY
+
     response = github.post '/graphql', { query: query }.to_json
-    if response.errors.length.positive?
+    if response.errors&.length&.positive?
       warn "Error: Retrieving pull requests from Github graphql API: #{response.errors}"
     end
     response.data.node.commits.edges.flat_map do |e|
