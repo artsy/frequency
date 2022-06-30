@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'datadog/statsd'
-require 'aws-sdk-s3'
 require_relative './config'
+require_relative './aws_helper'
 
 # Records timeliness of data-processing tasks' results on S3
 class DataFreshness
@@ -37,7 +37,7 @@ class DataFreshness
 
   def record_metrics
     S3_LOCATIONS.each do |key, s3|
-      last_modified = s3_client.list_objects(bucket: s3[:bucket], prefix: s3[:prefix]).flat_map do |response|
+      last_modified = AwsHelper.s3_client.list_objects(bucket: s3[:bucket], prefix: s3[:prefix]).flat_map do |response|
         response.contents.map(&:last_modified)
       end.max
       next unless last_modified
@@ -50,13 +50,5 @@ class DataFreshness
 
   def statsd
     @statsd ||= Datadog::Statsd.new(Config.values[:dd_agent_host])
-  end
-
-  def s3_client
-    @s3_client ||= Aws::S3::Client.new(
-      region: Config.values[:aws_region],
-      access_key_id: Config.values[:aws_access_key_id],
-      secret_access_key: Config.values[:aws_secret_access_key]
-    )
   end
 end
