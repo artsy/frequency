@@ -1,3 +1,4 @@
+---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -21,6 +22,50 @@ spec:
             - exec
             - rake
             - hourly
+            imagePullPolicy: Always
+            envFrom:
+            - configMapRef:
+                name: frequency-environment
+            env:
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          restartPolicy: Never
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: tier
+                    operator: In
+                    values:
+                    - background
+
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: frequency-commits-load
+spec:
+  schedule: 11 3 * * *
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
+        spec:
+          containers:
+          - name: frequency-release-metrics
+            image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/frequency:production
+            command:
+            - bundle
+            - exec
+            - rake
+            - commits:load
             imagePullPolicy: Always
             envFrom:
             - configMapRef:
