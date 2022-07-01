@@ -12,7 +12,8 @@ class Config
       aws_region: ENV['AWS_REGION'] || 'us-east-1',
       aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
       dd_agent_host: ENV['DD_AGENT_HOST'],
-      github_access_token: ENV['GITHUB_ACCESS_TOKEN']
+      github_access_token: ENV['GITHUB_ACCESS_TOKEN'],
+      redshift_url: ENV['REDSHIFT_URL']
     }.tap do |config|
       warn "Loading config #{config.map { |k, v| [k, v&.gsub(/.(?<=.{3})/, '*')].join(':') }.join(', ')}"
     end

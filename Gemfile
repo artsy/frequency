@@ -11,6 +11,7 @@ gem 'dogstatsd-ruby'
 gem 'json'
 gem 'jwt'
 gem 'octokit' # release metrics
+gem 'pg' # merge data into redshift
 gem 'rake'
 gem 'rubocop'
 
