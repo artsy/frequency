@@ -109,7 +109,7 @@ class DataFreshness
     jumio_scan_references: { bucket: 'artsy-data', prefix: 'reports/gravity.jumio_scan_references/' },
     lots: { bucket: 'artsy-data', prefix: 'reports/gravity.lots/' },
     lot_events: { bucket: 'artsy-data', prefix: 'reports/gravity.lot_events' },
-    rescource_notes: { bucket: 'artsy-data', prefix: 'reports/gravity.resource_notes'/ },
+    rescource_notes: { bucket: 'artsy-data', prefix: 'reports/gravity.resource_notes/' },
     search_criteria: { bucket: 'artsy-data', prefix: 'reports/gravity.search_criteria/' },
     second_factors: { bucket: 'artsy-data', prefix: 'reports/gravity.second_factors/' },
     user_search_criterias: { bucket: 'artsy-data', prefix: 'reports/gravity.user_search_criteria/' },
