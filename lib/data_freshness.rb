@@ -65,8 +65,6 @@ class DataFreshness
     gravity_artist_series_artworks: { bucket: 'artsy-data', prefix: 'reports/gravity.artist_series_artworks/' },
     gravity_artwork_versions: { bucket: 'artsy-data', prefix: 'reports/gravity.artwork_versions/' },
     gravity_artworks: { bucket: 'artsy-data', prefix: 'reports/gravity.artworks/' },
-    gravity_bids: { bucket: 'artsy-data', prefix: 'reports/gravity.bids/' },
-    gravity_bidder_positions: { bucket: 'artsy-data', prefix: 'reports/gravity.bidder_positions/' },
     gravity_bidders: { bucket: 'artsy-data', prefix: 'reports/gravity.bidders/' },
     gravity_blocked_emails: { bucket: 'artsy-data', prefix: 'reports/gravity.blocked_emails/' },
     gravity_credit_cards: { bucket: 'artsy-data', prefix: 'reports/gravity.credit_cards/' },
