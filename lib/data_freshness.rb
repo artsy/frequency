@@ -88,7 +88,7 @@ class DataFreshness
     gravity_partner_locations: { bucket: 'artsy-data', prefix: 'reports/gravity.partner_locations/' },
     gravity_partners: { bucket: 'artsy-data', prefix: 'reports/gravity.partners/' },
     gravity_partner_show_artworks: { bucket: 'artsy-data', prefix: 'reports/gravity.partner_show_artworks/' },
-    graviyt_partner_shows: { bucket: 'artsy-data', prefix: 'reports/gravity.partner_shows/' },
+    gravity_partner_shows: { bucket: 'artsy-data', prefix: 'reports/gravity.partner_shows/' },
     gravity_partner_subscription_charges: { bucket: 'artsy-data', prefix: 'reports/gravity.partner_subscription_charges/' },
     gravity_partner_subscription_charge_line_items: { bucket: 'artsy-data', prefix: 'reports/gravity.partner_subscription_charge_line_items/' },
     gravity_partner_subscriptions: { bucket: 'artsy-data', prefix: 'reports/gravity.partner_subscriptions/' },
@@ -105,7 +105,17 @@ class DataFreshness
     gravity_user_search_criteria: { bucket: 'artsy-data', prefix: 'reports/gravity.user_search_criteria/' },
     gravity_viewing_room_artworks: { bucket: 'artsy-data', prefix: 'reports/gravity.viewing_room_artworks/' },
     gravity_viewing_rooms: { bucket: 'artsy-data', prefix: 'reports/gravity.viewing_rooms/' },
-    positron_articles: { bucket: 'artsy-data', prefix: 'reports/positron.articles/' }
+    positron_articles: { bucket: 'artsy-data', prefix: 'reports/positron.articles/' },
+    marketo_clicks_email_link: { bucket: 'artsy-data', prefix: 'reports/marketo.clicks_email_link/' },
+    marketo_email_bounces: { bucket: 'artsy-data', prefix: 'reports/marketo.email_bounces/' },
+    marketo_email_delivers: { bucket: 'artsy-data', prefix: 'reports/marketo.email_delivers/' },
+    marketo_email_opens: { bucket: 'artsy-data', prefix: 'reports/marketo.email_opens/' },
+    marketo_email_sends: { bucket: 'artsy-data', prefix: 'reports/marketo.email_sends/' },
+    marketo_email_unsubscribes: { bucket: 'artsy-data', prefix: 'reports/marketo.email_unsubscribes/' },
+    marketo_fill_out_facebook_lead_ads_form: { bucket: 'artsy-data', prefix: 'reports/marketo.fill_out_facebook_lead_ads_form/' },
+    marketo_form_submissions: { bucket: 'artsy-data', prefix: 'reports/marketo.form_submissions/' },
+    marketo_forms: { bucket: 'artsy-data', prefix: 'reports/marketo.forms/' },
+    marketo_activity_types: { bucket: 'artsy-data', prefix: 'reports/marketo.activity_types/' }
   }.freeze
 
   def self.record_metrics
