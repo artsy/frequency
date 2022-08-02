@@ -113,7 +113,7 @@ class DataFreshness
     marketo_email_delivers: { bucket: 'artsy-data', prefix: 'reports/marketo.email_delivers/' },
     marketo_email_opens: { bucket: 'artsy-data', prefix: 'reports/marketo.email_opens/' },
     marketo_email_sends: { bucket: 'artsy-data', prefix: 'reports/marketo.email_sends/' },
-    marketo_email_unsubscribes: { bucket: 'artsy-data', prefix: 'reports/marketo.clicks_email_link/' },
+    marketo_email_unsubscribes: { bucket: 'artsy-data', prefix: 'reports/marketo.email_unsubscribes/' },
     marketo_fill_out_facebook_lead_ads_form: { bucket: 'artsy-data', prefix: 'reports/marketo.fill_out_facebook_lead_ads_form/' },
     marketo_form_submissions: { bucket: 'artsy-data', prefix: 'reports/marketo.form_submissions/' },
     marketo_forms: { bucket: 'artsy-data', prefix: 'reports/marketo.forms/' }
