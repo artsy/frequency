@@ -115,7 +115,16 @@ class DataFreshness
     marketo_fill_out_facebook_lead_ads_form: { bucket: 'artsy-data', prefix: 'reports/marketo.fill_out_facebook_lead_ads_form/' },
     marketo_form_submissions: { bucket: 'artsy-data', prefix: 'reports/marketo.form_submissions/' },
     marketo_forms: { bucket: 'artsy-data', prefix: 'reports/marketo.forms/' },
-    marketo_activity_types: { bucket: 'artsy-data', prefix: 'reports/marketo.activity_types/' }
+    marketo_activity_types: { bucket: 'artsy-data', prefix: 'reports/marketo.activity_types/' },
+    radiation_accounts: { bucket: 'artsy-data', prefix: 'reports/radiation.accounts/' },
+    radiation_attachments: { bucket: 'artsy-data', prefix: 'reports/radiation.attachments/' },
+    radiation_conversations: { bucket: 'artsy-data', prefix: 'reports/radiation.conversations/' },
+    radiation_deliveries: { bucket: 'artsy-data', prefix: 'reports/radiation.deliveries/' },
+    radiation_email_address_conversations: { bucket: 'artsy-data', prefix: 'reports/radiation.email_address_conversations/' },
+    radiation_email_addresses: { bucket: 'artsy-data', prefix: 'reports/radiation.email_addresses/' },
+    radiation_events: { bucket: 'artsy-data', prefix: 'reports/radiation.events/' },
+    radiation_messages: { bucket: 'artsy-data', prefix: 'reports/radiation.messages/' },
+    radiation_reviews: { bucket: 'artsy-data', prefix: 'reports/radiation.reviews/' }
   }.freeze
 
   def self.record_metrics
