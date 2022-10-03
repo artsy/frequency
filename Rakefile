@@ -7,7 +7,7 @@ rescue LoadError
 end
 
 desc 'run both metrics tasks hourly'
-task hourly: ['record:hourly_release_metrics', 'record:data_freshness']
+task hourly: ['record:hourly_release_metrics', 'record:data_freshness', 'record:image_latency']
 
 namespace :record do
   desc 'Record hourly release.first_commit and release.pull_request_age metrics to statsd'
@@ -20,6 +20,12 @@ namespace :record do
   task :data_freshness do
     require './lib/data_freshness'
     DataFreshness.record_metrics
+  end
+
+  desc 'Record latency of image transformations'
+  task :image_latency do
+    require './lib/image_latency'
+    ImageLatency.record_metrics
   end
 end
 
