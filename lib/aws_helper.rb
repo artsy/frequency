@@ -1,7 +1,16 @@
+require 'aws-sdk-ec2'
 require 'aws-sdk-s3'
 require_relative './config'
 
 class AwsHelper
+  def self.ec2_client
+    @ec2_client ||= Aws::EC2::Client.new(
+      region: Config.values[:aws_region],
+      access_key_id: Config.values[:aws_access_key_id],
+      secret_access_key: Config.values[:aws_secret_access_key]
+    )
+  end
+
   def self.s3_client
     @s3_client ||= Aws::S3::Client.new(
       region: Config.values[:aws_region],
