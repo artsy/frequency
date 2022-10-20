@@ -8,7 +8,7 @@ class SpotPrice
     new.record_metrics
   end
 
-  def record_metrics()
+  def record_metrics
     # instance types we allow in Spot instance groups.
     %w(c5.xlarge r5.xlarge m5.xlarge c6i.xlarge r6i.xlarge m6i.xlarge).each do |instance_type|
       statsd.gauge "spot_price", get_spot_price(instance_type), {:tags => [instance_type]}
