@@ -2,9 +2,22 @@
 version: '2'
 services:
   frequency:
-    env_file: ../.env
-    extends:
-      file: build.yml
-      service: frequency
+    env_file:
+    - ../.env.shared
+    - ../.env
+    environment:
+      - DD_AGENT_HOST=dd-agent
+    build:
+      context: ../
     volumes:
       - ../:/app
+    depends_on:
+      - dd-agent
+  dd-agent:
+    env_file:
+    - ../.env.shared
+    - ../.env
+    image: datadog/agent:6.22.0
+    ports:
+    - "8125:8125/udp"
+    - "8126:8126/tcp"

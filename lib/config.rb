@@ -11,7 +11,7 @@ class Config
       aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
       aws_region: ENV['AWS_REGION'] || 'us-east-1',
       aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      dd_agent_host: ENV['DD_AGENT_HOST'],
+      dd_agent_host: ENV['DD_AGENT_HOST'] || 'localhost',
       github_access_token: ENV['GITHUB_ACCESS_TOKEN'],
       redshift_url: ENV['REDSHIFT_URL']
     }.tap do |config|
