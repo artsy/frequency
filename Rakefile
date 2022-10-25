@@ -28,7 +28,7 @@ namespace :record do
     ImageLatency.record_metrics
   end
 
-  desc 'Record spot price'
+  desc 'Record AWS Spot instances price'
   task :spot_price do
     require './lib/spot_price'
     SpotPrice.record_metrics
