@@ -20,14 +20,20 @@ Some of the tasks in this repo send metrics to Datadog via [dogstatsd](https://g
 
 - Spin up a local dd-agent using Hokusai:
 
+    ```
     hokusai dev start
+    ```
 
 - Run the task locally, for example:
 
+    ```
     foreman run bundle exec rake record:data_freshness
+    ```
 
 - You can also run the task via Hokusai:
 
+    ```
     hokusai dev run "bundle exec rake record:data_freshness"
+    ```
 
-- Confirm it works by locating the metric on [Datadog Metrics Explorer UI](https://app.datadoghq.com/metric/explorer).
+- Confirm it works by locating the metric on [Datadog Metrics Explorer UI](https://app.datadoghq.com/metric/explorer). There's a lag of a few minutes.
