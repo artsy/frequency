@@ -47,7 +47,12 @@ class TokenScanner
         next unless decoded_jwt[0].key?('exp')
 
         days_left = get_days_left(decoded_jwt[0]['exp'])
-        results << [name, key, days_left] if days_left < WARN_THRESHOLD
+
+        aud_id = decoded_jwt[0]['aud']
+
+        sub_id = decoded_jwt[0]['subject_application']
+
+        results << [name, key, days_left, aud_id, sub_id] if days_left < WARN_THRESHOLD
       end
     end
   end
@@ -85,7 +90,9 @@ class TokenScanner
       puts "Context: #{context}"
       results.each do |result|
         expiration = result[2].positive? ? "expires-in: #{result[2]} days" : "expired: #{result[2].abs} days ago"
-        puts "\tconfigmap: #{result[0]}, key: #{result[1]}, #{expiration}."
+        puts "\tconfigmap: #{result[0]}"
+        puts "\t\t key: #{result[1]}, #{expiration}."
+        puts "\t\t audience_id = #{result[3]}, subject_id = #{result[4]}"
       end
     end
     puts 'END'
