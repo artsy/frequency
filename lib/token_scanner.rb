@@ -91,8 +91,7 @@ class TokenScanner
       results.each do |result|
         expiration = result[2].positive? ? "expires-in: #{result[2]} days" : "expired: #{result[2].abs} days ago"
         puts "\tconfigmap: #{result[0]}"
-        puts "\t\t key: #{result[1]}, #{expiration}."
-        puts "\t\t audience_id = #{result[3]}, subject_id = #{result[4]}"
+        puts "\t\t key: #{result[1]}, #{expiration}, audience_id: #{result[3]}, subject_id: #{result[4]}"
       end
     end
     puts 'END'
