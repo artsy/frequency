@@ -4,9 +4,6 @@ require 'active_support'
 require 'active_support/core_ext/numeric'
 require 'active_support/core_ext/time'
 require 'json'
-require 'tempfile'
-require 'csv'
-require 'zlib'
 require 'pg'
 require_relative './github'
 require_relative './aws_helper'
@@ -54,17 +51,7 @@ class CommitsLoader
 
   def upload_to_s3(data)
     key = "reports/engineering.commits/partial_#{Time.now.to_s(:number)}.csv.gz"
-    $stderr.puts "Uploading to #{BUCKET} #{key}..."
-    s3_object = Aws::S3::Object.new(BUCKET, key, client: AwsHelper.s3_client)
-    s3_object.upload_stream(tempfile: true) do |s3_stream|
-      s3_stream.binmode
-      Zlib::GzipWriter.wrap(s3_stream) do |gzw|
-        CSV(gzw, headers: HEADERS, write_headers: true) do |csv|
-          data.each { |row| csv << row }
-        end
-      end
-    end
-    s3_object
+    AwsHelper.upload_csv_to_s3(BUCKET, key, HEADERS, data)
   end
 
   def merge_into_warehouse(s3_object)
