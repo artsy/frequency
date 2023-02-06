@@ -6,7 +6,7 @@ begin
 rescue LoadError
 end
 
-desc 'run both metrics tasks hourly'
+desc 'run all metrics tasks hourly'
 task hourly: ['record:hourly_release_metrics', 'record:data_freshness', 'record:image_latency', 'record:spot_price']
 
 namespace :record do
@@ -45,5 +45,12 @@ namespace :commits do
   task :load do
     require './lib/commits_loader'
     CommitsLoader.load_recent_commits
+  end
+end
+
+namespace :vulnerabilities do
+  task :extract do
+    require './lib/vulnerabilities_extract'
+    VulnerabilitiesExtract.extract_vulnerabilities
   end
 end
