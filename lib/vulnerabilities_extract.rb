@@ -9,7 +9,7 @@ require_relative './aws_helper'
 
 class VulnerabilitiesExtract
   HEADERS = %i[repository vulnerability_id package created_at dismissed_at fixed_at state severity description]
-  BUCKET = 'artsy-data'
+  BUCKET = Config.values[:reports_bucket]
 
   def self.extract_vulnerabilities
     new.extract_vulnerabilities
