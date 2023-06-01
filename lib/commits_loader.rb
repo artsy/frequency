@@ -10,7 +10,7 @@ require_relative './aws_helper'
 
 class CommitsLoader
   HEADERS = %i[object_id repository message_headline message author_name authored_date committed_date pushed_date]
-  BUCKET = 'artsy-data'
+  BUCKET = Config.values[:reports_bucket]
 
   def self.load_recent_commits
     new.load_recent_commits
