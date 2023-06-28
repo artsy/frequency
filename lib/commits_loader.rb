@@ -10,7 +10,7 @@ require_relative './aws_helper'
 
 class CommitsLoader
   HEADERS = %i[object_id repository message_headline message author_name authored_date committed_date pushed_date]
-  BUCKET = Config.values[:reports_bucket]
+  BUCKET = Config.values[:extracts_bucket]
 
   def self.load_recent_commits
     new.load_recent_commits
@@ -50,7 +50,7 @@ class CommitsLoader
   end
 
   def upload_to_s3(data)
-    key = "reports/engineering.commits/partial_#{Time.now.to_s(:number)}.csv.gz"
+    key = "extracts/engineering.commits/partial_#{Time.now.to_s(:number)}.csv.gz"
     AwsHelper.upload_csv_to_s3(BUCKET, key, HEADERS, data)
   end
 

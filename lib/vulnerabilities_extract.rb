@@ -9,7 +9,7 @@ require_relative './aws_helper'
 
 class VulnerabilitiesExtract
   HEADERS = %i[repository vulnerability_id package created_at dismissed_at fixed_at state severity description]
-  BUCKET = Config.values[:reports_bucket]
+  BUCKET = Config.values[:extracts_bucket]
 
   def self.extract_vulnerabilities
     new.extract_vulnerabilities
@@ -23,7 +23,7 @@ class VulnerabilitiesExtract
     data = build_data
     AwsHelper.upload_csv_to_s3(
       BUCKET,
-      "reports/engineering.vulnerabilities/export_#{Time.now.to_s(:number)}.csv.gz",
+      "extracts/engineering.vulnerabilities/export_#{Time.now.to_s(:number)}.csv.gz",
       HEADERS,
       data
     )
