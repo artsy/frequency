@@ -14,7 +14,7 @@ class Config
       dd_agent_host: ENV['DD_AGENT_HOST'] || 'localhost',
       github_access_token: ENV['GITHUB_ACCESS_TOKEN'],
       redshift_url: ENV['REDSHIFT_URL'],
-      reports_bucket: ENV['REPORTS_BUCKET'] || 'artsy-data'
+      extracts_bucket: ENV['EXTRACTS_BUCKET'] || 'artsy-data-platform-production'
     }.tap do |config|
       warn "Loading config #{config.map { |k, v| [k, v&.gsub(/.(?<=.{3})/, '*')].join(':') }.join(', ')}"
     end
