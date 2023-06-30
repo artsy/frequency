@@ -10,7 +10,7 @@ class SpotPrice
 
   def record_metrics
     # instance types we allow in Spot instance groups.
-    %w(c5.xlarge r5.xlarge m5.xlarge c6i.xlarge r6i.xlarge m6i.xlarge).each do |instance_type|
+    %w(c5.xlarge r5.xlarge m5.xlarge).each do |instance_type|
       price = get_spot_price(instance_type)
       statsd.gauge("spot_price", price, tags: ["spot_instance_type:#{instance_type}"])
       warn "Recorded price for #{instance_type} Spot instance: #{price} (0 means failure to obtain price)"
