@@ -35,12 +35,6 @@ namespace :record do
   end
 end
 
-desc 'scan k8s configmaps for expiring JWT tokens'
-task :scan_tokens do
-  require './lib/token_scanner'
-  TokenScanner.new.run
-end
-
 namespace :commits do
   task :load do
     require './lib/commits_loader'
