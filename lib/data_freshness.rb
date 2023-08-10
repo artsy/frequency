@@ -116,7 +116,7 @@ class DataFreshness
     marketo_forms: { bucket: 'artsy-data-platform-production', prefix: 'extracts/marketo.forms/' },
     marketo_activity_types: { bucket: 'artsy-data-platform-production', prefix: 'extracts/marketo.activity_types/' },
     radiation_attachments: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.attachments/' },
-    radiation_conversations: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.conversations/' },
+    radiation_conversations: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.email_conversations/' },
     radiation_deliveries: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.deliveries/' },
     radiation_email_address_conversations: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.email_address_conversations/' },
     radiation_email_addresses: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.email_addresses/' },
