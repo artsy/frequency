@@ -121,7 +121,7 @@ class DataFreshness
     radiation_email_address_conversations: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.email_address_conversations/' },
     radiation_email_addresses: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.email_addresses/' },
     radiation_events: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.events/' },
-    radiation_messages: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.messages/' },
+    radiation_messages: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.email_messages/' },
     radiation_reviews: { bucket: 'artsy-data-platform-production', prefix: 'extracts/radiation.reviews/' }
   }.freeze
 
