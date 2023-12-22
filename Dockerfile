@@ -4,7 +4,7 @@ ENV LANG C.UTF-8
 # Set up nodejs and dumb-init
 RUN apt-get update -qq && apt-get install -y dumb-init && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN gem install bundler
+RUN gem install bundler -v 2.4.22
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
