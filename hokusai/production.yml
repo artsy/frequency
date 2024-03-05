@@ -1,5 +1,5 @@
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: frequency-release-metrics
@@ -43,7 +43,7 @@ spec:
                     - background
 
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: frequency-commits-load
@@ -87,7 +87,7 @@ spec:
                     - background
 
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: frequency-vulnerabilities-extract
