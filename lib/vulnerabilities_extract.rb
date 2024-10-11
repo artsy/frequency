@@ -15,7 +15,7 @@ class VulnerabilitiesExtract
     new.extract_vulnerabilities
   end
 
-  def initialize(org: "artsy")
+  def initialize(org: 'artsy')
     @org = org
   end
 
@@ -23,7 +23,7 @@ class VulnerabilitiesExtract
     data = build_data
     AwsHelper.upload_csv_to_s3(
       BUCKET,
-      "extracts/engineering.vulnerabilities/export_#{Time.now.to_s(:number)}.csv.gz",
+      "extracts/full/engineering/vulnerabilities/export_#{Time.now.to_s(:number)}/extract.csv.gz",
       HEADERS,
       data
     )
@@ -56,10 +56,11 @@ class VulnerabilitiesExtract
     loop do
       response = Github.execute_query(repo_query(cursor))
       response.data.repositoryOwner.repositories.nodes.each do |repo|
-        $stderr.puts "Processing repo: #{repo.name} #{repo.pushedAt}"
+        warn "Processing repo: #{repo.name} #{repo.pushedAt}"
         yield repo
       end
       return unless response.data.repositoryOwner.repositories.pageInfo.hasNextPage
+
       cursor = response.data.repositoryOwner.repositories.pageInfo.endCursor
     end
   end
@@ -69,10 +70,11 @@ class VulnerabilitiesExtract
     loop do
       response = Github.execute_query(vulnerability_query(repo, cursor))
       response.data.repository.vulnerabilityAlerts.nodes.each do |vuln|
-        $stderr.puts "\tProcessing vulnerability alert: #{vuln.id} on #{repo.name}..."
+        warn "\tProcessing vulnerability alert: #{vuln.id} on #{repo.name}..."
         yield vuln
       end
       return unless response.data.repository.vulnerabilityAlerts.pageInfo.hasNextPage
+
       cursor = response.data.repository.vulnerabilityAlerts.pageInfo.endCursor
     end
   end
@@ -81,7 +83,9 @@ class VulnerabilitiesExtract
     <<-QUERY
       query {
         repositoryOwner(login: #{@org.to_json}) {
-          repositories(first: 100, orderBy: {direction: DESC, field: PUSHED_AT}#{", after: #{cursor.to_json}" if cursor}) {
+          repositories(first: 100, orderBy: {direction: DESC, field: PUSHED_AT}#{if cursor
+                                                                                   ", after: #{cursor.to_json}"
+                                                                                 end}) {
             pageInfo {
               hasNextPage
               endCursor
