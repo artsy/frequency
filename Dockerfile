@@ -24,5 +24,5 @@ RUN bundle install -j4
 ADD . /app
 WORKDIR /app
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+ENTRYPOINT ["/usr/bin/dumb-init", "./scripts/load_secrets_and_run.sh"]
 CMD ["bundle", "exec", "rake", "--tasks"]
