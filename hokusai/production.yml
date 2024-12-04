@@ -14,10 +14,26 @@ spec:
           annotations:
             cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
         spec:
+          initContainers:
+          - name: setenv
+            image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/fortress:production
+            imagePullPolicy: Always
+            command:
+            - python
+            - src/load/load.py
+            - kubernetes
+            - production
+            - frequency
+            envFrom:
+            - configMapRef:
+                name: secrets-config
+            volumeMounts:
+            - name: secrets
+              mountPath: /secrets
           containers:
           - name: frequency-release-metrics
             image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/frequency:production
-            command:
+            args:
             - bundle
             - exec
             - rake
@@ -25,13 +41,20 @@ spec:
             imagePullPolicy: Always
             envFrom:
             - configMapRef:
+                name: secrets-config
+            - configMapRef:
                 name: frequency-environment
+            volumeMounts:
+            - name: secrets
+              mountPath: /secrets
+              readOnly: true
             env:
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
           restartPolicy: Never
+          serviceAccountName: frequency
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -41,6 +64,9 @@ spec:
                     operator: In
                     values:
                     - background
+          volumes:
+          - name: secrets
+            emptyDir: {}
 
 ---
 apiVersion: batch/v1
@@ -58,10 +84,26 @@ spec:
           annotations:
             cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
         spec:
+          initContainers:
+          - name: setenv
+            image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/fortress:production
+            imagePullPolicy: Always
+            command:
+            - python
+            - src/load/load.py
+            - kubernetes
+            - production
+            - frequency
+            envFrom:
+            - configMapRef:
+                name: secrets-config
+            volumeMounts:
+            - name: secrets
+              mountPath: /secrets
           containers:
           - name: frequency-commits-load
             image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/frequency:production
-            command:
+            args:
             - bundle
             - exec
             - rake
@@ -69,13 +111,20 @@ spec:
             imagePullPolicy: Always
             envFrom:
             - configMapRef:
+                name: secrets-config
+            - configMapRef:
                 name: frequency-environment
+            volumeMounts:
+            - name: secrets
+              mountPath: /secrets
+              readOnly: true
             env:
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
           restartPolicy: Never
+          serviceAccountName: frequency
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -85,6 +134,10 @@ spec:
                     operator: In
                     values:
                     - background
+          volumes:
+          - name: secrets
+            emptyDir: {}
+
 
 ---
 apiVersion: batch/v1
@@ -102,10 +155,26 @@ spec:
           annotations:
             cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
         spec:
+          initContainers:
+          - name: setenv
+            image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/fortress:production
+            imagePullPolicy: Always
+            command:
+            - python
+            - src/load/load.py
+            - kubernetes
+            - production
+            - frequency
+            envFrom:
+            - configMapRef:
+                name: secrets-config
+            volumeMounts:
+            - name: secrets
+              mountPath: /secrets
           containers:
           - name: frequency-vulnerabilities-extract
             image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/frequency:production
-            command:
+            args:
             - bundle
             - exec
             - rake
@@ -113,13 +182,20 @@ spec:
             imagePullPolicy: Always
             envFrom:
             - configMapRef:
+                name: secrets-config
+            - configMapRef:
                 name: frequency-environment
+            volumeMounts:
+            - name: secrets
+              mountPath: /secrets
+              readOnly: true
             env:
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
           restartPolicy: Never
+          serviceAccountName: frequency
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -129,3 +205,6 @@ spec:
                     operator: In
                     values:
                     - background
+          volumes:
+          - name: secrets
+            emptyDir: {}
