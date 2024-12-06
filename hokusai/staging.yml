@@ -1,3 +1,4 @@
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -86,7 +87,7 @@ spec:
             image: 585031190124.dkr.ecr.us-east-1.amazonaws.com/fortress:staging
             imagePullPolicy: Always
             command:
-           - python
+            - python
             - src/load/load.py
             - kubernetes
             - staging
