@@ -34,17 +34,3 @@ namespace :record do
     SpotPrice.record_metrics
   end
 end
-
-namespace :commits do
-  task :load do
-    require './lib/commits_loader'
-    CommitsLoader.load_recent_commits
-  end
-end
-
-namespace :vulnerabilities do
-  task :extract do
-    require './lib/vulnerabilities_extract'
-    VulnerabilitiesExtract.extract_vulnerabilities
-  end
-end
