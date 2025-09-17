@@ -16,7 +16,7 @@ class ReleaseMetrics
   def record_hourly_metrics
     t = 1.hour.ago.utc
     query = "org:artsy is:pr is:merged base:release merged:#{t.beginning_of_hour.iso8601}..#{t.end_of_hour.iso8601}"
-    Github.client.search_issues(query, page: 1, per_page: 100).items.each do |release_pr|
+    github_client.search_issues(query, page: 1, per_page: 100).items.each do |release_pr|
       # record time span between PR open and production release
       pull_requests_for_release(release_pr).map do |pr|
         age_s = release_pr.closed_at - Time.parse(pr.createdAt)
@@ -25,7 +25,7 @@ class ReleaseMetrics
       end
 
       repo = release_pr.repository_url.split('/')[-2..].join('/')
-      first_commit = Github.client.pull_request_commits(repo, release_pr.number, per_page: 1).first
+      first_commit = github_client.pull_request_commits(repo, release_pr.number, per_page: 1).first
       next unless first_commit
 
       cycle_time = release_pr.closed_at - first_commit.commit.author.date
@@ -66,12 +66,16 @@ class ReleaseMetrics
       }
     QUERY
 
-    response = Github.execute_query(query)
+    response = Github.execute_query(query, github_client)
     if response.errors&.length&.positive?
       warn "Error: Retrieving pull requests from Github graphql API: #{response.errors}"
     end
-    response.data.node.commits.edges.flat_map do |e|
+    response.data.node.commits.edges.compact.flat_map do |e|
       e.node.commit.associatedPullRequests.map { |_k, v| v.first.node }
     end.uniq(&:url)
+  end
+
+  def github_client
+    @github_client ||= Github.build_client
   end
 end

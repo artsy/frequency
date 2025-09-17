@@ -19,4 +19,12 @@ describe ReleaseMetrics do
     )
     expect(ReleaseMetrics.new.pull_requests_for_release(issue)).to eq([])
   end
+
+  it 'tolerates nil edges' do
+    allow(response).to receive_messages(
+      errors: [],
+      data: double(node: double(commits: double(edges: [nil])))
+    )
+    expect(ReleaseMetrics.new.pull_requests_for_release(issue)).to eq([])
+  end
 end
